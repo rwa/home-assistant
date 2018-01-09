@@ -22,6 +22,8 @@ REQUIREMENTS = ['concord232==0.14']
 
 _LOGGER = logging.getLogger(__name__)
 
+SERVICE_ALARM_ARM_HOME_SILENT = 'concord232_alarm_arm_home_silent'
+
 DEFAULT_HOST = 'localhost'
 DEFAULT_NAME = 'CONCORD232'
 DEFAULT_PORT = 5007
@@ -61,6 +63,14 @@ class Concord232Alarm(alarm.AlarmControlPanel):
         self._hass = hass
         self._name = name
         self._url = url
+
+        def alarm_arm_home_silent_handler(service):
+            """Handler for custom service to arm home silently."""
+            _LOGGER.warning("stay silent was called")
+            self._alarm.arm('stay-silent')
+
+        hass.services.register(alarm.DOMAIN, SERVICE_ALARM_ARM_HOME_SILENT,
+                               alarm_arm_home_silent_handler)
 
         try:
             client = concord232_client.Client(self._url)
