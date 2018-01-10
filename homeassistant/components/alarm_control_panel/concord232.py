@@ -18,7 +18,7 @@ from homeassistant.const import (
     STATE_ALARM_ARMED_HOME, STATE_ALARM_DISARMED, STATE_UNKNOWN)
 import homeassistant.helpers.config_validation as cv
 
-REQUIREMENTS = ['concord232==0.14']
+REQUIREMENTS = ['concord232==0.15']
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -67,7 +67,7 @@ class Concord232Alarm(alarm.AlarmControlPanel):
         def alarm_arm_home_silent_handler(service):
             """Handler for custom service to arm home silently."""
             _LOGGER.warning("stay silent was called")
-            self._alarm.arm('stay-silent')
+            self._alarm.arm('stay','silent')
 
         hass.services.register(alarm.DOMAIN, SERVICE_ALARM_ARM_HOME_SILENT,
                                alarm_arm_home_silent_handler)
