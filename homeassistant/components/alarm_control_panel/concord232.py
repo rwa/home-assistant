@@ -22,18 +22,23 @@ REQUIREMENTS = ['concord232==0.15']
 
 _LOGGER = logging.getLogger(__name__)
 
-SERVICE_ALARM_ARM_HOME_SILENT = 'concord232_alarm_arm_home_silent'
+SERVICE_CONCORD232_ARM_HOME = 'concord232_arm_home'
+SERVICE_CONCORD232_ARM_AWAY = 'concord232_arm_away'
 
 DEFAULT_HOST = 'localhost'
 DEFAULT_NAME = 'CONCORD232'
 DEFAULT_PORT = 5007
 
-SCAN_INTERVAL = timedelta(seconds=1)
+SCAN_INTERVAL = timedelta(seconds=2)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
     vol.Optional(CONF_HOST, default=DEFAULT_HOST): cv.string,
+})
+
+CONCORD232_ARM_SCHEMA = vol.Schema({
+    vol.Required(ATTR_ARM_OPTION): cv.string
 })
 
 
@@ -64,13 +69,31 @@ class Concord232Alarm(alarm.AlarmControlPanel):
         self._name = name
         self._url = url
 
-        def alarm_arm_home_silent_handler(service):
-            """Handler for custom service to arm home silently."""
-            _LOGGER.warning("stay silent was called")
-            self._alarm.arm('stay','silent')
+        def concord232_arm_home_handler(service):
+            """Handler for custom service to arm home with options."""
+            _LOGGER.warning("stay with options was called")
+            option = service.data.pop(ATTR_ARM_OPTION)
+            self._alarm.arm('stay',option)
 
-        hass.services.register(alarm.DOMAIN, SERVICE_ALARM_ARM_HOME_SILENT,
-                               alarm_arm_home_silent_handler)
+        def concord232_arm_away_handler(service):
+            """Handler for custom service to arm away with options."""
+            _LOGGER.warning("away with options was called")
+            option = service.data.pop(ATTR_ARM_OPTION)
+            self._alarm.arm('stay',option)
+
+        # Register concord232 specific services
+        descriptions = yield from hass.async_add_job(
+            load_yaml_config_file, os.path.join(
+                os.path.dirname(__file__), 'services.yaml'))
+            
+        hass.services.register(alarm.DOMAIN, SERVICE_CONCORD232_ARM_HOME,
+                               concord232_arm_home_handler, descriptions.get(SERVICE_CONCORD232_ARM_HOME),
+                               schema=CONCORD232_ARM_SCHEMA)
+
+        hass.services.register(alarm.DOMAIN, SERVICE_CONCORD232_ARM_AWAY,
+                               concord232_arm_away_handler, descriptions.get(SERVICE_CONCORD232_ARM_HOME),
+                               schema=CONCORD232_ARM_SCHEMA)
+                               
 
         try:
             client = concord232_client.Client(self._url)
@@ -131,4 +154,4 @@ class Concord232Alarm(alarm.AlarmControlPanel):
 
     def alarm_arm_away(self, code=None):
         """Send arm away command."""
-        self._alarm.arm('auto')
+        self._alarm.arm('away')

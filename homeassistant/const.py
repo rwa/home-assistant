@@ -257,6 +257,9 @@ ATTR_COMMAND = 'command'
 # For devices which support an armed state
 ATTR_ARMED = 'device_armed'
 
+# For alarms which support arming options
+ATTR_ARM_OPTION = 'arming_option'
+
 # For devices which support a locked state
 ATTR_LOCKED = 'locked'
 
