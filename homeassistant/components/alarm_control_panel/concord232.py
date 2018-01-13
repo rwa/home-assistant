@@ -14,7 +14,7 @@ import voluptuous as vol
 import homeassistant.components.alarm_control_panel as alarm
 from homeassistant.components.alarm_control_panel import PLATFORM_SCHEMA
 from homeassistant.const import (
-    CONF_HOST, CONF_NAME, CONF_PORT, STATE_ALARM_ARMED_AWAY, ATTR_ARM_OPTION,
+    CONF_HOST, CONF_NAME, CONF_PORT, STATE_ALARM_ARMED_AWAY,
     STATE_ALARM_ARMED_HOME, STATE_ALARM_DISARMED, STATE_UNKNOWN)
 import homeassistant.helpers.config_validation as cv
 
@@ -22,18 +22,11 @@ REQUIREMENTS = ['concord232==0.14']
 
 _LOGGER = logging.getLogger(__name__)
 
-SERVICE_CONCORD232_ARM_STAY = 'concord232_arm_stay'
-
 DEFAULT_HOST = 'localhost'
 DEFAULT_NAME = 'CONCORD232'
 DEFAULT_PORT = 5007
 
 SCAN_INTERVAL = timedelta(seconds=1)
-
-CONCORD232_ARM_SCHEMA = vol.Schema({
-    vol.Required(ATTR_ARM_OPTION): cv.string
-})
-
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_PORT, default=DEFAULT_PORT): cv.port,
@@ -64,15 +57,6 @@ class Concord232Alarm(alarm.AlarmControlPanel):
         """Initialize the Concord232 alarm panel."""
         from concord232 import client as concord232_client
 
-        
-        def concord232_arm_stay_handler(service):
-            option = service.data.get(ATTR_ARM_OPTION)
-            self._alarm.arm('stay',option)
-
-        hass.services.async_register(
-            alarm.DOMAIN, SERVICE_CONCORD232_ARM_STAY, concord232_arm_stay_handler,
-            schema=CONCORD232_ARM_SCHEMA)
-        
         self._state = STATE_UNKNOWN
         self._hass = hass
         self._name = name
