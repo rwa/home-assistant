@@ -45,79 +45,80 @@ ATTR_TO_PROPERTY = [
 ALARM_SERVICE_SCHEMA = vol.Schema({
     vol.Optional(ATTR_ENTITY_ID): cv.entity_ids,
     vol.Optional(ATTR_CODE): cv.string,
+    vol.Optional(ATTR_DATA): dict,
 })
 
 
 @bind_hass
-def alarm_disarm(hass, code=None, entity_id=None):
+def alarm_disarm(hass, code=None, entity_id=None, data=None):
     """Send the alarm the command for disarm."""
-    data = {}
+    info = {}
     if code:
-        data[ATTR_CODE] = code
+        info[ATTR_CODE] = code
     if entity_id:
-        data[ATTR_ENTITY_ID] = entity_id
+        info[ATTR_ENTITY_ID] = entity_id
 
-    hass.services.call(DOMAIN, SERVICE_ALARM_DISARM, data)
+    hass.services.call(DOMAIN, SERVICE_ALARM_DISARM, info)
 
 
 @bind_hass
-def alarm_arm_home(hass, code=None, entity_id=None):
+def alarm_arm_home(hass, code=None, entity_id=None, data=None):
     """Send the alarm the command for arm home."""
-    data = {}
+    info = {}
     if code:
-        data[ATTR_CODE] = code
+        info[ATTR_CODE] = code
     if entity_id:
-        data[ATTR_ENTITY_ID] = entity_id
+        info[ATTR_ENTITY_ID] = entity_id
 
-    hass.services.call(DOMAIN, SERVICE_ALARM_ARM_HOME, data)
+    hass.services.call(DOMAIN, SERVICE_ALARM_ARM_HOME, info)
 
 
 @bind_hass
-def alarm_arm_away(hass, code=None, entity_id=None):
+def alarm_arm_away(hass, code=None, entity_id=None, data=None):
     """Send the alarm the command for arm away."""
-    data = {}
+    info = {}
     if code:
-        data[ATTR_CODE] = code
+        info[ATTR_CODE] = code
     if entity_id:
-        data[ATTR_ENTITY_ID] = entity_id
+        info[ATTR_ENTITY_ID] = entity_id
 
-    hass.services.call(DOMAIN, SERVICE_ALARM_ARM_AWAY, data)
+    hass.services.call(DOMAIN, SERVICE_ALARM_ARM_AWAY, info)
 
 
 @bind_hass
-def alarm_arm_night(hass, code=None, entity_id=None):
+def alarm_arm_night(hass, code=None, entity_id=None, data=None):
     """Send the alarm the command for arm night."""
-    data = {}
+    info = {}
     if code:
-        data[ATTR_CODE] = code
+        info[ATTR_CODE] = code
     if entity_id:
-        data[ATTR_ENTITY_ID] = entity_id
+        info[ATTR_ENTITY_ID] = entity_id
 
-    hass.services.call(DOMAIN, SERVICE_ALARM_ARM_NIGHT, data)
+    hass.services.call(DOMAIN, SERVICE_ALARM_ARM_NIGHT, info)
 
 
 @bind_hass
-def alarm_trigger(hass, code=None, entity_id=None):
+def alarm_trigger(hass, code=None, entity_id=None, data=None):
     """Send the alarm the command for trigger."""
-    data = {}
+    info = {}
     if code:
-        data[ATTR_CODE] = code
+        info[ATTR_CODE] = code
     if entity_id:
-        data[ATTR_ENTITY_ID] = entity_id
+        info[ATTR_ENTITY_ID] = entity_id
 
-    hass.services.call(DOMAIN, SERVICE_ALARM_TRIGGER, data)
+    hass.services.call(DOMAIN, SERVICE_ALARM_TRIGGER, info)
 
 
 @bind_hass
-def alarm_arm_custom_bypass(hass, code=None, entity_id=None):
+def alarm_arm_custom_bypass(hass, code=None, entity_id=None, data=None):
     """Send the alarm the command for arm custom bypass."""
-    data = {}
+    info = {}
     if code:
-        data[ATTR_CODE] = code
+        info[ATTR_CODE] = code
     if entity_id:
-        data[ATTR_ENTITY_ID] = entity_id
+        info[ATTR_ENTITY_ID] = entity_id
 
-    hass.services.call(DOMAIN, SERVICE_ALARM_ARM_CUSTOM_BYPASS, data)
+    hass.services.call(DOMAIN, SERVICE_ALARM_ARM_CUSTOM_BYPASS, info)
 
 
 @asyncio.coroutine
@@ -174,71 +175,71 @@ class AlarmControlPanel(Entity):
         """Last change triggered by."""
         return None
 
-    def alarm_disarm(self, code=None):
+    def alarm_disarm(self, code=None, data=None):
         """Send disarm command."""
         raise NotImplementedError()
 
-    def async_alarm_disarm(self, code=None):
+    def async_alarm_disarm(self, code=None, data=None):
         """Send disarm command.
 
         This method must be run in the event loop and returns a coroutine.
         """
-        return self.hass.async_add_job(self.alarm_disarm, code)
+        return self.hass.async_add_job(self.alarm_disarm, code, data)
 
-    def alarm_arm_home(self, code=None):
+    def alarm_arm_home(self, code=None, data=None):
         """Send arm home command."""
         raise NotImplementedError()
 
-    def async_alarm_arm_home(self, code=None):
+    def async_alarm_arm_home(self, code=None, data=None):
         """Send arm home command.
 
         This method must be run in the event loop and returns a coroutine.
         """
-        return self.hass.async_add_job(self.alarm_arm_home, code)
+        return self.hass.async_add_job(self.alarm_arm_home, code, data)
 
-    def alarm_arm_away(self, code=None):
+    def alarm_arm_away(self, code=None, data=None):
         """Send arm away command."""
         raise NotImplementedError()
 
-    def async_alarm_arm_away(self, code=None):
+    def async_alarm_arm_away(self, code=None, data=None):
         """Send arm away command.
 
         This method must be run in the event loop and returns a coroutine.
         """
-        return self.hass.async_add_job(self.alarm_arm_away, code)
+        return self.hass.async_add_job(self.alarm_arm_away, code, data)
 
-    def alarm_arm_night(self, code=None):
+    def alarm_arm_night(self, code=None, data=None):
         """Send arm night command."""
         raise NotImplementedError()
 
-    def async_alarm_arm_night(self, code=None):
+    def async_alarm_arm_night(self, code=None, data=None):
         """Send arm night command.
 
         This method must be run in the event loop and returns a coroutine.
         """
-        return self.hass.async_add_job(self.alarm_arm_night, code)
+        return self.hass.async_add_job(self.alarm_arm_night, code, data)
 
-    def alarm_trigger(self, code=None):
+    def alarm_trigger(self, code=None, data=None):
         """Send alarm trigger command."""
         raise NotImplementedError()
 
-    def async_alarm_trigger(self, code=None):
+    def async_alarm_trigger(self, code=None, data=None):
         """Send alarm trigger command.
 
         This method must be run in the event loop and returns a coroutine.
         """
-        return self.hass.async_add_job(self.alarm_trigger, code)
+        return self.hass.async_add_job(self.alarm_trigger, code, data)
 
-    def alarm_arm_custom_bypass(self, code=None):
+    def alarm_arm_custom_bypass(self, code=None, data=None):
         """Send arm custom bypass command."""
         raise NotImplementedError()
 
-    def async_alarm_arm_custom_bypass(self, code=None):
+    def async_alarm_arm_custom_bypass(self, code=None, data=None):
         """Send arm custom bypass command.
 
         This method must be run in the event loop and returns a coroutine.
         """
-        return self.hass.async_add_job(self.alarm_arm_custom_bypass, code)
+        return self.hass.async_add_job(self.alarm_arm_custom_bypass, code, data)
 
     @property
     def state_attributes(self):
