@@ -251,6 +251,9 @@ ATTR_WAKEUP = 'wake_up_interval'
 ATTR_CODE = 'code'
 ATTR_CODE_FORMAT = 'code_format'
 
+# For devices which support arming options
+ATTR_ARM_OPTION = 'option'
+
 # For calling a device specific command
 ATTR_COMMAND = 'command'
 
