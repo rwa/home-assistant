@@ -113,7 +113,7 @@ class MqttAlarm(alarm.AlarmControlPanel):
         return None if self._code is None else '.+'
 
     @asyncio.coroutine
-    def async_alarm_disarm(self, code=None):
+    def async_alarm_disarm(self, code=None, data=None):
         """Send disarm command.
 
         This method is a coroutine.
@@ -124,7 +124,7 @@ class MqttAlarm(alarm.AlarmControlPanel):
             self.hass, self._command_topic, self._payload_disarm, self._qos)
 
     @asyncio.coroutine
-    def async_alarm_arm_home(self, code=None):
+    def async_alarm_arm_home(self, code=None, data=None):
         """Send arm home command.
 
         This method is a coroutine.
@@ -135,7 +135,7 @@ class MqttAlarm(alarm.AlarmControlPanel):
             self.hass, self._command_topic, self._payload_arm_home, self._qos)
 
     @asyncio.coroutine
-    def async_alarm_arm_away(self, code=None):
+    def async_alarm_arm_away(self, code=None, data=None):
         """Send arm away command.
 
         This method is a coroutine.

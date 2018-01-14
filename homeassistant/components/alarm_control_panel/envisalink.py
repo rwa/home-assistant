@@ -135,7 +135,7 @@ class EnvisalinkAlarm(EnvisalinkDevice, alarm.AlarmControlPanel):
         return state
 
     @asyncio.coroutine
-    def async_alarm_disarm(self, code=None):
+    def async_alarm_disarm(self, code=None, data=None):
         """Send disarm command."""
         if code:
             self.hass.data[DATA_EVL].disarm_partition(
@@ -145,7 +145,7 @@ class EnvisalinkAlarm(EnvisalinkDevice, alarm.AlarmControlPanel):
                 str(self._code), self._partition_number)
 
     @asyncio.coroutine
-    def async_alarm_arm_home(self, code=None):
+    def async_alarm_arm_home(self, code=None, data=None):
         """Send arm home command."""
         if code:
             self.hass.data[DATA_EVL].arm_stay_partition(
@@ -155,7 +155,7 @@ class EnvisalinkAlarm(EnvisalinkDevice, alarm.AlarmControlPanel):
                 str(self._code), self._partition_number)
 
     @asyncio.coroutine
-    def async_alarm_arm_away(self, code=None):
+    def async_alarm_arm_away(self, code=None, data=None):
         """Send arm away command."""
         if code:
             self.hass.data[DATA_EVL].arm_away_partition(
@@ -165,7 +165,7 @@ class EnvisalinkAlarm(EnvisalinkDevice, alarm.AlarmControlPanel):
                 str(self._code), self._partition_number)
 
     @asyncio.coroutine
-    def async_alarm_trigger(self, code=None):
+    def async_alarm_trigger(self, code=None, data=None):
         """Alarm trigger command. Will be used to trigger a panic alarm."""
         self.hass.data[DATA_EVL].panic_alarm(self._panic_type)
 

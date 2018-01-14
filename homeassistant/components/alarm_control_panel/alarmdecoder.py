@@ -79,19 +79,19 @@ class AlarmDecoderAlarmPanel(alarm.AlarmControlPanel):
         """Return the state of the device."""
         return self._state
 
-    def alarm_disarm(self, code=None):
+    def alarm_disarm(self, code=None, data=None):
         """Send disarm command."""
         if code:
             _LOGGER.debug("alarm_disarm: sending %s1", str(code))
             self.hass.data[DATA_AD].send("{!s}1".format(code))
 
-    def alarm_arm_away(self, code=None):
+    def alarm_arm_away(self, code=None, data=None):
         """Send arm away command."""
         if code:
             _LOGGER.debug("alarm_arm_away: sending %s2", str(code))
             self.hass.data[DATA_AD].send("{!s}2".format(code))
 
-    def alarm_arm_home(self, code=None):
+    def alarm_arm_home(self, code=None, data=None):
         """Send arm home command."""
         if code:
             _LOGGER.debug("alarm_arm_home: sending %s3", str(code))

@@ -18,7 +18,7 @@ from homeassistant.const import (
     STATE_ALARM_ARMED_HOME, STATE_ALARM_DISARMED, STATE_UNKNOWN)
 import homeassistant.helpers.config_validation as cv
 
-REQUIREMENTS = ['concord232==0.14']
+REQUIREMENTS = ['concord232==0.15']
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -115,10 +115,19 @@ class Concord232Alarm(alarm.AlarmControlPanel):
         """Send disarm command."""
         self._alarm.disarm(code)
 
-    def alarm_arm_home(self, code=None):
+    def alarm_arm_home(self, code=None, data=None):
         """Send arm home command."""
-        self._alarm.arm('stay')
+        _LOGGER.error("called concord232 alarm_arm_home")
+        option = None
+        if data is not None:
+            if data['option'] is not None:
+                option = data['option']
+        self._alarm.arm('stay',option)
 
-    def alarm_arm_away(self, code=None):
+    def alarm_arm_away(self, code=None, data=None):
         """Send arm away command."""
-        self._alarm.arm('auto')
+        option = None
+        if data is not None:
+            if data['option'] is not None:
+                option = data['option']
+        self._alarm.arm('away',option)

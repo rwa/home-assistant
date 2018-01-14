@@ -26,6 +26,8 @@ from homeassistant.helpers.entity_component import EntityComponent
 # Platform specific data
 ATTR_DATA = 'data'
 
+_LOGGER = logging.getLogger(__name__)
+
 DOMAIN = 'alarm_control_panel'
 SCAN_INTERVAL = timedelta(seconds=30)
 ATTR_CHANGED_BY = 'changed_by'
@@ -68,6 +70,7 @@ def alarm_disarm(hass, code=None, entity_id=None, data=None):
 @bind_hass
 def alarm_arm_home(hass, code=None, entity_id=None, data=None):
     """Send the alarm the command for arm home."""
+    _LOGGER.error("called @bind_hass alarm_arm_home")
     info = {}
     if code:
         info[ATTR_CODE] = code
@@ -140,11 +143,13 @@ def async_setup(hass, config):
 
         code = service.data.get(ATTR_CODE)
 
+        data = service.data.get(ATTR_DATA)
+
         method = "async_{}".format(SERVICE_TO_METHOD[service.service])
 
         update_tasks = []
         for alarm in target_alarms:
-            yield from getattr(alarm, method)(code)
+            yield from getattr(alarm, method)(code, data)
 
             if not alarm.should_poll:
                 continue
@@ -199,6 +204,7 @@ class AlarmControlPanel(Entity):
 
         This method must be run in the event loop and returns a coroutine.
         """
+        _LOGGER.error("called async_alarm_arm_home")
         return self.hass.async_add_job(self.alarm_arm_home, code, data)
 
     def alarm_arm_away(self, code=None, data=None):
