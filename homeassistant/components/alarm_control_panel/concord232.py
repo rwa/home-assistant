@@ -111,7 +111,7 @@ class Concord232Alarm(alarm.AlarmControlPanel):
             self._state = newstate
         return self._state
 
-    def alarm_disarm(self, code=None):
+    def alarm_disarm(self, code=None, data=None):
         """Send disarm command."""
         self._alarm.disarm(code)
 
