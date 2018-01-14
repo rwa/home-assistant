@@ -63,6 +63,8 @@ def alarm_disarm(hass, code=None, entity_id=None, data=None):
         info[ATTR_CODE] = code
     if entity_id:
         info[ATTR_ENTITY_ID] = entity_id
+    if data:
+        info[ATTR_DATA] = data
 
     hass.services.call(DOMAIN, SERVICE_ALARM_DISARM, info)
 
@@ -76,6 +78,8 @@ def alarm_arm_home(hass, code=None, entity_id=None, data=None):
         info[ATTR_CODE] = code
     if entity_id:
         info[ATTR_ENTITY_ID] = entity_id
+    if data:
+        info[ATTR_DATA] = data
 
     hass.services.call(DOMAIN, SERVICE_ALARM_ARM_HOME, info)
 
@@ -88,6 +92,8 @@ def alarm_arm_away(hass, code=None, entity_id=None, data=None):
         info[ATTR_CODE] = code
     if entity_id:
         info[ATTR_ENTITY_ID] = entity_id
+    if data:
+        info[ATTR_DATA] = data
 
     hass.services.call(DOMAIN, SERVICE_ALARM_ARM_AWAY, info)
 
@@ -100,6 +106,8 @@ def alarm_arm_night(hass, code=None, entity_id=None, data=None):
         info[ATTR_CODE] = code
     if entity_id:
         info[ATTR_ENTITY_ID] = entity_id
+    if data:
+        info[ATTR_DATA] = data
 
     hass.services.call(DOMAIN, SERVICE_ALARM_ARM_NIGHT, info)
 
@@ -112,6 +120,8 @@ def alarm_trigger(hass, code=None, entity_id=None, data=None):
         info[ATTR_CODE] = code
     if entity_id:
         info[ATTR_ENTITY_ID] = entity_id
+    if data:
+        info[ATTR_DATA] = data
 
     hass.services.call(DOMAIN, SERVICE_ALARM_TRIGGER, info)
 
@@ -124,6 +134,8 @@ def alarm_arm_custom_bypass(hass, code=None, entity_id=None, data=None):
         info[ATTR_CODE] = code
     if entity_id:
         info[ATTR_ENTITY_ID] = entity_id
+    if data:
+        info[ATTR_DATA] = data
 
     hass.services.call(DOMAIN, SERVICE_ALARM_ARM_CUSTOM_BYPASS, info)
 
